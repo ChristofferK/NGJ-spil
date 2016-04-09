@@ -6,6 +6,9 @@ public class detection : MonoBehaviour {
     public bool doneOnce = false;
     public GameObject Obj;
     public GameObject playerObj;
+    public GameObject WallObj;
+    public Color A = Color.blue;
+    public Color B = Color.red;
 
         // These two are linked in proportionality, so healthChange should always be 100*sizeChange 
     public int healthChange = 10; // Change Health Change per tile 
@@ -20,10 +23,10 @@ public class detection : MonoBehaviour {
 	void Start ()
     {
         playerObj = GameObject.Find("WhiteBox"); // WhiteBox = Name of Player Object
-        
+        WallObj = GameObject.Find("FloorPrefab");
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         
         if (!doneOnce)
@@ -33,7 +36,9 @@ public class detection : MonoBehaviour {
             playerObj.GetComponent<Actions>().health -= healthChange;
             playerObj.transform.localScale = new Vector2(playerScale, playerScale);
             doneOnce = true;
-            Instantiate(Obj, transform.position, Quaternion.identity);
+            gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(A, B, 0);
+         
+          //   Instantiate(Obj, transform.position, Quaternion.identity);
         }
         
     }
